@@ -30,10 +30,10 @@ function showQuestion(question) {
 }
 
 
-function selectAnswer(i) {
-let selectedButton = i.target
+function selectAnswer(e) {
+let selectedButton = e.target 
 let correct = selectedButton.dataset.correct
-checkAnswer(button,button.dataset.correct)
+checkAnswer(document.body, correct)
 Array.from(answerBtns.children).forEach(button => {
     checkAnswer(button, button.dataset.correct)
     startButton.innerText = 'Restart'
@@ -49,6 +49,14 @@ function checkAnswer(element, correct) {
         element.classList.add('wrong')
     }
 
+}
+
+function reset() {
+    clearAnswer(document.body)  // clear clicked buttons from last question
+    nextButton.classList.add('hide') // hide the next button
+    while (answerButtonElement.firstChild) {
+        answerButtonElement.removeChild(answerButtonElement.firstChild)
+    }
 }
 
 function clearAnswer(element) {
