@@ -2,17 +2,30 @@
 const startButton = document.getElementById("start-btn");
 const questionContainer =document.getElementById("question-container");
 const questionElement = document.getElementById("question");
-const answerBtns = document.getElementById('answer-buttons')
+const answerBtns = document.getElementById('answer-buttons');
 
+//shuffle element
+let shuffle; 
+let currentQuestionIndex;
 
 //Event listener for startButton
 startButton.addEventListener("click",startGame)
+nextButton.addEventListener('click',() => {
+    currentQuestionIndex++
+    setNextQuestion()
+    
+})
 
 //function to start game
 function startGame() {
 startButton.classList.add("hide") // hide start button
 questionContainer.classList.remove('hide') //unhide question container
+shuffle = 0
+setNextQuestion()
+shuffle = myQuestions.sort(() =>Math.random() - .5)
+currentQuestionIndex = 0
 }
+
 
 // push questions and answer buttons to HTML
 function showQuestion(question) {
@@ -36,9 +49,13 @@ let correct = selectedButton.dataset.correct
 checkAnswer(document.body, correct)
 Array.from(answerBtns.children).forEach(button => {
     checkAnswer(button, button.dataset.correct)
+})
+if (shuffle.lenght > currentQuestionIndex +1) {
+    nextButton.classList.remove("hide")
+} else {
     startButton.innerText = 'Restart'
     startButton.classList.remove('hide')
-})
+}
 }
 
 function checkAnswer(element, correct) {
@@ -58,6 +75,13 @@ function reset() {
         answerButtonElement.removeChild(answerButtonElement.firstChild)
     }
 }
+
+function setNextQuestion() {
+    reset()
+    showQuestion(shuffle[currentQuestionIndex])
+}
+
+
 
 function clearAnswer(element) {
     element.classList.remove('correct')
