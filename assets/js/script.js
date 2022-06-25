@@ -8,6 +8,7 @@ const progressText = document.getElementById("progressText");
 const resultsElement = document.getElementById("results");
 
 
+
 //shuffle element
 let shuffle, currentQuestionIndex, score;
 
@@ -16,7 +17,8 @@ let shuffle, currentQuestionIndex, score;
 startButton.addEventListener("click",startGame)
 nextBtn.addEventListener('click', () => {
     currentQuestionIndex++
-    setNextQuestion()    
+    setNextQuestion() 
+       
 })
 
 //function to start game
@@ -28,6 +30,7 @@ questionContainer.classList.remove('hide'); //unhide question container
 setNextQuestion()
 resultsElement.classList.add("hide");
 score = 0;
+
 }
 
 function setNextQuestion() {
@@ -81,10 +84,8 @@ function checkAnswer(element, correct) {
     if(correct) {
         element.classList.add('correct');
         score += 1;
-        text.innerHTML = "That is corrcet!";
     } else {
         element.classList.add('wrong');
-        text.innerHTML = 'That is incorrect.';
     }
   }
   
