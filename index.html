@@ -4,13 +4,21 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="/assets/css/style.css" rel="stylesheet">
+    <link href="./assets/css/style.css" rel="stylesheet">
     <title>Kill Bill Quiz/title></title>
 </head>
 <body>
     <div class="container">
         <h1>Kill Bill Quiz</h1>
         <div id="question-container" class="hide">
+            <p id="progressText">
+                Question
+            </p>
+            <div>
+                <div>
+                    <p id="text" class="col text-center"></p>
+                </div>
+            </div>
             <div id="question">Question</div>
             <div id="answer-buttons" class="btn-grid">
                 <button class="btn">Answer 1</button>
@@ -18,16 +26,19 @@
                 <button class="btn">Answer 3</button>
                 <button class="btn">Answer 4</button>
             </div>
-            <div id="hint">Hint</div>
+            <div id="results" class="results hide row">
+                <p class="win">Congratulations!</p>
+            </div>
         </div>
-    <div class="controls">
-        <button id="start-btn" class="start-btn btn">Start</button>
-        <button id="next-btn" class="next-btn btn hide">Next</button>
+        <div class="controls">
+            <button id="start-btn" class="start-btn btn">Start</button>
+            <button id="next-btn" class="next-btn btn hide">Next</button>
+        </div>
+        <div>
+            <p id="progress">Question x of y</p>
+        </div>
     </div>
-</div>
-<div>
-    <p id="progress">Question x of y</p>
-</div>
-    <script src="/assets/js/script.js"></script>
+
+    <script src="./assets/js/script.js"></script>
 </body>
 </html>

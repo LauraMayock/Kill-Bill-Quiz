@@ -4,9 +4,12 @@ const questionContainer =document.getElementById("question-container");
 const questionElement = document.getElementById("question");
 const answerBtns = document.getElementById('answer-buttons');
 const nextBtn = document.getElementById('next-btn');
+const progressText = document.getElementById("progressText");
+const resultsElement = document.getElementById("results");
+
 
 //shuffle element
-let shuffle, currentQuestionIndex;
+let shuffle, currentQuestionIndex, score;
 
 
 //Event listener for startButton
@@ -23,6 +26,8 @@ shuffle = myQuestions.sort(() =>Math.random() - .6);
 currentQuestionIndex = 0;
 questionContainer.classList.remove('hide'); //unhide question container
 setNextQuestion()
+resultsElement.classList.add("hide");
+score = 0;
 }
 
 function setNextQuestion() {
@@ -38,18 +43,18 @@ function showQuestion(question) {
     question.answers.forEach(answer => {
         let button = document.createElement('button'); // add buttons with innerText to HTML
         button.innerText = answer.text;
-        button.setAttribute("btn");
+        button.classList.add("btn");
         if (answer.correct) {
             button.dataset.correct = answer.correct;
         }
-    button.addEventListener('mousedown',selectAnswer); // add event listener to button which looks out for correct answer
+    button.addEventListener('click',selectAnswer); // add event listener to button which looks out for correct answer
     answerBtns.appendChild(button)
 })
 }
 
 function reset() {
-  clearAnswer(document.body);  // clear clicked buttons from last question
-  nextBtn.classList.add('hide'); // hide the next button
+  clearAnswer(document.body)  // clear clicked buttons from last question
+  nextBtn.classList.add('hide') // hide the next button
   while (answerBtns.firstChild) {
       answerBtns.removeChild(answerBtns.firstChild)
   }
@@ -57,26 +62,29 @@ function reset() {
 
 
 function selectAnswer(e) {
-let selectedButton = e.target 
-let correct = selectedButton.dataset.correct;
-checkAnswer(document.body, correct);
-Array.from(answerBtns.children).forEach(button => {
-    checkAnswer(button, button.dataset.correct)
-})
+    const selectedButton = e.target 
+    const correct = selectedButton.dataset.correct
+    checkAnswer(document.body, correct);
+    Array.from(answerBtns.children).forEach(button => {
+      checkAnswer(button, button.dataset.correct)
+    })
 if (shuffle.lenght > currentQuestionIndex +1) {
-    nextBtn.classList.remove("hide")
+  nextBtn.classList.remove("hide")
 } else {
     startButton.innerText = 'Restart';
     startButton.classList.remove('hide')
-}
+  }
 }
 
 function checkAnswer(element, correct) {
     clearAnswer(element)
     if(correct) {
-        element.classList.add('correct')
+        element.classList.add('correct');
+        score += 1;
+        text.innerHTML = "That is corrcet!";
     } else {
-        element.classList.add('wrong')
+        element.classList.add('wrong');
+        text.innerHTML = 'That is incorrect.';
     }
   }
   
@@ -85,7 +93,14 @@ function checkAnswer(element, correct) {
     element.classList.remove('wrong');
 }
 
-// show how may quesetions are remaining
+// show results
+function showResults() {
+  questionContainer.classList.remove('hide');
+  resultsElement.innerHTML = `Your final score was ${score}%!`;
+  startButton.classList.remove("hide");
+  questionElement.classList.add("hide");
+  answerBtns.classList.add("hide");
+}
 
 
 // Quiz quesstions
@@ -95,7 +110,7 @@ let myQuestions = [
     answers: [
       {text: "Black Momba",correct: false },
       {text: "Arlene", correct: false },
-      {text: "The Bride", correcct: true },
+      {text: "The Bride", correct: true },
       {text: "she has no name or nickname", correct: false }
     ]
     },
@@ -125,7 +140,7 @@ let myQuestions = [
       {text: "Deadly Vipers Assassination Squad",correct: true},
       {text: "Operation Snowblood",correct: false},
       {text: "the Snake Charmers",correct: false}
-    ] 
+    ],
   }, 
   { 
     question: "What unusual item does Elle Driver wear?", 
@@ -143,7 +158,7 @@ let myQuestions = [
     {text: "water moccasin",correct: false},
     {text: "ball python",correct: false}, 
     {text: "California mountain snake",correct: true},
-  ]
+  ],
   }, 
   { 
     question: "What is painted on the truck that the Bride drives?", 
