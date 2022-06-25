@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="assets/css/style.css">
+    <link href="/assets/css/style.css" rel="stylesheet">
     <title>Kill Bill Quiz/title></title>
 </head>
 <body>
@@ -22,10 +22,12 @@
         </div>
     <div class="controls">
         <button id="start-btn" class="start-btn btn">Start</button>
-        <button id="next-btn" class="next-btn btn">Next</button>
+        <button id="next-btn" class="next-btn btn hide">Next</button>
     </div>
 </div>
-
-    <script src="assets/js/script.js"></script>
+<div>
+    <p id="progress">Question x of y</p>
+</div>
+    <script src="/assets/js/script.js"></script>
 </body>
 </html>

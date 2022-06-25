@@ -3,57 +3,70 @@ const startButton = document.getElementById("start-btn");
 const questionContainer =document.getElementById("question-container");
 const questionElement = document.getElementById("question");
 const answerBtns = document.getElementById('answer-buttons');
+const nextBtn = document.getElementById('next-btn');
 
 //shuffle element
-let shuffle; 
-let currentQuestionIndex;
+let shuffle, currentQuestionIndex;
+
 
 //Event listener for startButton
 startButton.addEventListener("click",startGame)
-nextButton.addEventListener('click',() => {
+nextBtn.addEventListener('click', () => {
     currentQuestionIndex++
-    setNextQuestion()
-    
+    setNextQuestion()    
 })
 
 //function to start game
 function startGame() {
-startButton.classList.add("hide") // hide start button
-questionContainer.classList.remove('hide') //unhide question container
-shuffle = 0
+startButton.classList.add("hide"); // hide start button
+shuffle = myQuestions.sort(() =>Math.random() - .6);
+currentQuestionIndex = 0;
+questionContainer.classList.remove('hide'); //unhide question container
 setNextQuestion()
-shuffle = myQuestions.sort(() =>Math.random() - .5)
-currentQuestionIndex = 0
 }
+
+function setNextQuestion() {
+  reset()
+  showQuestion(shuffle[currentQuestionIndex])
+}
+
 
 
 // push questions and answer buttons to HTML
 function showQuestion(question) {
     questionElement.innerText = question.question // add questions to HTML
     question.answers.forEach(answer => {
-        let button = document.createElement('button') // add buttons with innerText to HTML
-        button.innerText = answer.text
-        button.classList.add("btn")
+        let button = document.createElement('button'); // add buttons with innerText to HTML
+        button.innerText = answer.text;
+        button.setAttribute("btn");
         if (answer.correct) {
-            button.dataset.correct = answer.correct
+            button.dataset.correct = answer.correct;
         }
-    button.addEventListener('click',selectAnswer) // add event listener to button which looks out for correct answer
-    answerButtonElement.appendChild(button)
+    button.addEventListener('mousedown',selectAnswer); // add event listener to button which looks out for correct answer
+    answerBtns.appendChild(button)
 })
+}
+
+function reset() {
+  clearAnswer(document.body);  // clear clicked buttons from last question
+  nextBtn.classList.add('hide'); // hide the next button
+  while (answerBtns.firstChild) {
+      answerBtns.removeChild(answerBtns.firstChild)
+  }
 }
 
 
 function selectAnswer(e) {
 let selectedButton = e.target 
-let correct = selectedButton.dataset.correct
-checkAnswer(document.body, correct)
+let correct = selectedButton.dataset.correct;
+checkAnswer(document.body, correct);
 Array.from(answerBtns.children).forEach(button => {
     checkAnswer(button, button.dataset.correct)
 })
 if (shuffle.lenght > currentQuestionIndex +1) {
-    nextButton.classList.remove("hide")
+    nextBtn.classList.remove("hide")
 } else {
-    startButton.innerText = 'Restart'
+    startButton.innerText = 'Restart';
     startButton.classList.remove('hide')
 }
 }
@@ -65,28 +78,15 @@ function checkAnswer(element, correct) {
     } else {
         element.classList.add('wrong')
     }
-
+  }
+  
+  function clearAnswer(element) {
+    element.classList.remove('correct');
+    element.classList.remove('wrong');
 }
 
-function reset() {
-    clearAnswer(document.body)  // clear clicked buttons from last question
-    nextButton.classList.add('hide') // hide the next button
-    while (answerButtonElement.firstChild) {
-        answerButtonElement.removeChild(answerButtonElement.firstChild)
-    }
-}
+// show how may quesetions are remaining
 
-function setNextQuestion() {
-    reset()
-    showQuestion(shuffle[currentQuestionIndex])
-}
-
-
-
-function clearAnswer(element) {
-    element.classList.remove('correct')
-    element.classList.remove('wrong')
-}
 
 // Quiz quesstions
 let myQuestions = [
@@ -99,8 +99,6 @@ let myQuestions = [
       {text: "she has no name or nickname", correct: false }
     ]
     },
-    hint = "c",
-
   { 
     question: "What color is associated with the Bride?", 
     answers: [
