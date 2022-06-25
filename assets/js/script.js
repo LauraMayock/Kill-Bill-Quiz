@@ -6,6 +6,8 @@ const answerBtns = document.getElementById('answer-buttons');
 const nextBtn = document.getElementById('next-btn');
 const progressText = document.getElementById("progressText");
 const resultsElement = document.getElementById("results");
+const resultsButton = document.getElementById("results-btn");
+const hintButton = document.getElementById("hint-button");
 
 
 
@@ -14,7 +16,8 @@ let shuffle, currentQuestionIndex, score;
 
 
 //Event listener for startButton
-startButton.addEventListener("click",startGame)
+startButton.addEventListener("click",startGame);
+resultsButton.addEventListener("click", showResults);
 nextBtn.addEventListener('click', () => {
     currentQuestionIndex++
     setNextQuestion() 
@@ -32,6 +35,8 @@ resultsElement.classList.add("hide");
 score = 0;
 
 }
+
+
 
 function setNextQuestion() {
   reset()
@@ -73,9 +78,11 @@ function selectAnswer(e) {
     })
 if (shuffle.lenght > currentQuestionIndex +1) {
   nextBtn.classList.remove("hide")
+  selectedButton.style.backgroundColor = "green";
 } else {
     startButton.innerText = 'Restart';
     startButton.classList.remove('hide')
+    selectedButton.style.backgroundColor = "red";
   }
 }
 
@@ -98,6 +105,7 @@ function checkAnswer(element, correct) {
 function showResults() {
   questionContainer.classList.remove('hide');
   resultsElement.innerHTML = `Your final score was ${score}%!`;
+  resultsButton.classList.add('hide');
   startButton.classList.remove("hide");
   questionElement.classList.add("hide");
   answerBtns.classList.add("hide");
@@ -210,7 +218,7 @@ let myQuestions = [
      {
         question: "Complete the sentence: 'If you encounter God on your travels, __________.'", 
      answers: [
-        {text: "'Take care taht you step aside.'",correct: false},
+        {text: "'Take care that you step aside.'",correct: false},
         {text: "'god will approve.'",correct: true},
         {text: "'God will step aside.'",correct: false}, 
         {text: "'God will be cut.'",correct: false}  

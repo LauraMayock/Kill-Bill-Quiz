@@ -38,7 +38,7 @@ h1 {
     align-content: stretch;
     justify-content: space-evenly;
 }
-.btn.correct {
+/*.btn.correct {
     background-color: green;
     color: black;
 }
@@ -48,7 +48,7 @@ h1 {
     background-color: red;
     color: black;
 }
-
+*/
 .container {
     width: 800px;
     max-width: 80%;
