@@ -5,9 +5,9 @@ const questionElement = document.getElementById("question");
 const answerBtns = document.getElementById('answer-buttons');
 const nextBtn = document.getElementById('next-btn');
 const progressText = document.getElementById("progressText");
-const scoreElement = document.getElementById("score");
+const scoreText = document.getElementById("score");
 
-const score_points = 100;
+
 const max_questions = 12;
 
 
@@ -17,17 +17,6 @@ let shuffle, currentQuestionIndex, score,questionCounter;
 
 //Event listener for startButton
 startButton.addEventListener("click",startGame);
-nextBtn.addEventListener('click', () => {
- if (currentQuestionIndex.length === 0 || questionCounter > max_questions) {
-    localStorage.setItem("mostRecentScore", score)
-    return window.location.assign("/end.html")
-}
-    currentQuestionIndex++
-    questionCounter++
-    progressText.innerText = `Question ${questionCounter} of ${max_questions}`
-    setNextQuestion() 
-
-})
 
 
 
@@ -40,6 +29,18 @@ score = 0;
 questionCounter = 0;
 questionContainer.classList.remove('hide'); //unhide question container
 setNextQuestion()
+nextBtn.addEventListener('click', () => {
+  if (currentQuestionIndex.length === 0 || questionCounter > max_questions) {
+     localStorage.setItem("mostRecentScore", score)
+     return window.location.assign("/end.html")
+ }
+     currentQuestionIndex++
+     questionCounter++
+     progressText.innerText = `Question ${questionCounter} of ${max_questions}`
+     setNextQuestion() 
+ 
+ })
+ 
 }
 
 
@@ -88,11 +89,17 @@ function selectAnswer(e) {
 if (shuffle.lenght > currentQuestionIndex +1) {
   nextBtn.classList.remove("hide")
 } else if (correct) {
-      score += 1;
       selectedButton.style.backgroundColor = "green";
+      scoreText.innerText = score;
+      score++;
     } else {
       selectedButton.style.backgroundColor = "red"; 
   }
+}
+
+incrementScore = num => {
+  score +=num
+  scoreText.innerText = score
 }
 
 function checkAnswer(element, correct) {
@@ -118,6 +125,7 @@ function showResults() {
   startButton.classList.remove("hide");
   questionElement.classList.add("hide");
   answerBtns.classList.add("hide");
+  questionContainer.classList.add("hide");
 }
 
 
