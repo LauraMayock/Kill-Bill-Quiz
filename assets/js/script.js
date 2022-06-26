@@ -5,42 +5,48 @@ const questionElement = document.getElementById("question");
 const answerBtns = document.getElementById('answer-buttons');
 const nextBtn = document.getElementById('next-btn');
 const progressText = document.getElementById("progressText");
-const resultsElement = document.getElementById("results");
-const resultsButton = document.getElementById("results-btn");
-const hintButton = document.getElementById("hint-button");
+const scoreElement = document.getElementById("score");
 
+const score_points = 100;
+const max_questions = 12;
 
 
 //shuffle element
-let shuffle, currentQuestionIndex, score;
+let shuffle, currentQuestionIndex, score,questionCounter;
 
 
 //Event listener for startButton
 startButton.addEventListener("click",startGame);
-resultsButton.addEventListener("click", showResults);
 nextBtn.addEventListener('click', () => {
+ if (currentQuestionIndex.length === 0 || questionCounter > max_questions) {
+    localStorage.setItem("mostRecentScore", score)
+    return window.location.assign("/end.html")
+}
     currentQuestionIndex++
+    questionCounter++
+    progressText.innerText = `Question ${questionCounter} of ${max_questions}`
     setNextQuestion() 
-       
+
 })
+
+
 
 //function to start game
 function startGame() {
-startButton.classList.add("hide"); // hide start button
 shuffle = myQuestions.sort(() =>Math.random() - .6);
 currentQuestionIndex = 0;
+startButton.classList.add("hide"); // hide start button
+score = 0;
+questionCounter = 0;
 questionContainer.classList.remove('hide'); //unhide question container
 setNextQuestion()
-resultsElement.classList.add("hide");
-score = 0;
-
 }
 
 
 
 function setNextQuestion() {
   reset()
-  showQuestion(shuffle[currentQuestionIndex])
+  showQuestion(shuffle[currentQuestionIndex]);
 }
 
 
@@ -56,9 +62,11 @@ function showQuestion(question) {
             button.dataset.correct = answer.correct;
         }
     button.addEventListener('click',selectAnswer); // add event listener to button which looks out for correct answer
-    answerBtns.appendChild(button)
+    answerBtns.appendChild(button);
 })
 }
+
+
 
 function reset() {
   clearAnswer(document.body)  // clear clicked buttons from last question
@@ -75,14 +83,15 @@ function selectAnswer(e) {
     checkAnswer(document.body, correct);
     Array.from(answerBtns.children).forEach(button => {
       checkAnswer(button, button.dataset.correct)
+      nextBtn.classList.remove("hide");
     })
 if (shuffle.lenght > currentQuestionIndex +1) {
   nextBtn.classList.remove("hide")
-  selectedButton.style.backgroundColor = "green";
-} else {
-    startButton.innerText = 'Restart';
-    startButton.classList.remove('hide')
-    selectedButton.style.backgroundColor = "red";
+} else if (correct) {
+      score += 1;
+      selectedButton.style.backgroundColor = "green";
+    } else {
+      selectedButton.style.backgroundColor = "red"; 
   }
 }
 
@@ -90,7 +99,6 @@ function checkAnswer(element, correct) {
     clearAnswer(element)
     if(correct) {
         element.classList.add('correct');
-        score += 1;
     } else {
         element.classList.add('wrong');
     }
@@ -104,6 +112,7 @@ function checkAnswer(element, correct) {
 // show results
 function showResults() {
   questionContainer.classList.remove('hide');
+  resultsElement.classList.remove("hide");
   resultsElement.innerHTML = `Your final score was ${score}%!`;
   resultsButton.classList.add('hide');
   startButton.classList.remove("hide");
@@ -222,7 +231,7 @@ let myQuestions = [
         {text: "'god will approve.'",correct: true},
         {text: "'God will step aside.'",correct: false}, 
         {text: "'God will be cut.'",correct: false}  
-     ] 
-    }, 
-  ];
+     ]
+    }
+  ]
   

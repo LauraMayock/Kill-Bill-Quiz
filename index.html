@@ -12,9 +12,14 @@
     <div class="container">
         <h1>Kill Bill Quiz</h1>
         <div id="question-container" class="hide">
-            <p id="progressText">
-                Question
-            </p>
+            <div class="hud-item">
+                <p class="hud-prefix">
+                    Score
+                </p>
+                <h3 class="hud-main-text" id="score">
+                    0
+                </h3>
+            </div>
             <div>
             </div>
             <div id="question">Question</div>
@@ -34,11 +39,9 @@
         <div class="controls">
             <button id="start-btn" class="start-btn btn">Start</button>
             <button id="next-btn" class="next-btn btn hide">Next</button>
-            <button id="results-btn" class="results-btn btn hide">Get Results! </button>
         </div>
-        <div>
-            <p id="progress">Question x of y</p>
-        </div>
+        <div id="progressText"></div>
+    </div>
     </div>
 
     <script src="./assets/js/script.js"></script>
